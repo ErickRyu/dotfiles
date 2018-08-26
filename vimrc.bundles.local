@@ -1,0 +1,37 @@
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'scrooloose/nerdcommenter'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'shougo/vimshell.vim'
+
+" javascript
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'SirVer/ultisnips'
+Plugin 'isRuslan/vim-es6'
+
+Plugin 'mattn/emmet-vim'
+Plugin 'millermedeiros/vim-esformatter'
+
+" Etherium
+Plugin 'tomlion/vim-solidity'
+
+
+
+
+call vundle#end()            " required
+" use Ctrl+L to toggle the line number counting method
+function! g:ToggleNuMode()
+	if &nu == 1 && &rnu == 0
+  		set rnu
+	else
+   		set nornu
+endif
+endfunction
+nnoremap <C-L> :call g:ToggleNuMode()<cr>
+
+
+map <C-n> :NERDTreeToggle<CR>

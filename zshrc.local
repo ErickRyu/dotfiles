@@ -1,0 +1,33 @@
+alias reload='source ~/.zshrc'
+alias ll='ls -al'
+alias la='ls -a'
+
+# cd
+alias wp='cd /Applications/MAMP/htdocs/wordpress'
+alias work='cd ~/Documents/workspace'
+alias ..='cd ..'
+alias ...='cd ..;cd ..'
+alias ....='cd ..;cd ..;cd ..'
+
+# git
+alias gs='git status'
+alias gps='git push'
+alias gpl='git pull'
+alias ga='git add .'
+alias gl='git log'
+alias glo='git log --oneline'
+
+# slowalk server
+alias sjslo='ssh sungjin@slodev.co.kr'
+alias slo='ssh slowalk@slodev.co.kr'
+alias aws='ssh -i "sjryu_aws.pem" ubuntu@ec2-52-79-235-180.ap-northeast-2.compute.amazonaws.com'
+
+
+# Todo: zsh setting
+plugins=(
+  git
+)
+
+# source $ZSH/oh-my-zsh.sh
+
+alias mamp='cd /Applications/MAMP/htdocs/'

@@ -1,0 +1,131 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+let g:user_emmet_leader_key='<C-Z>'
+
+
+set nocompatible     " 오리지날 VI와 호환하지 않음
+set autoindent       " 자동 들여쓰기
+set cindent          " C 프로그래밍용 자동 들여쓰기
+set smartindent      " 스마트한 들여쓰기
+set wrap
+set nowrapscan       " 검색할 때 문서의 끝에서 처음으로 안돌아감
+set nobackup         " 백업 파일을 안만듬
+set noswapfile
+"set visualbell      " 키를 잘못눌렀을 때 화면 프레시
+set ruler            " 화면 우측 하단에 현재 커서의 위치(줄,칸) 표시
+set shiftwidth=2     " 자동 들여쓰기 4칸
+ set number           " 행번호 표시, set nu 도 가능
+set fencs=ucs-bom,utf-8,euc-kr.latin1 " 한글 파일은 euc-kr로, 유니코드는 유니코드로
+set fileencoding=utf-8 " 파일저장인코딩
+set tenc=utf-8       " 터미널 인코딩
+"set expandtab       " 탭대신 스페이스
+set hlsearch         " 검색어 강조, set hls 도 가능
+set ignorecase       " 검색시 대소문자 무시, set ic 도 가능
+set tabstop=4        " 탭을 4칸으로
+set lbr
+set incsearch        " 키워드 입력시 점진적 검색
+set cursorline       " 편집 위치에 커서 라인 설정
+set laststatus=2     " 상태바 표시를 항상한다
+syntax on "  구문강조 
+filetype indent on   " 파일 종류에 따른 구문강조
+set background=dark  " 하이라이팅 lihgt / dark
+
+colorscheme jellybeans  "  vi 색상 테마 설정
+set backspace=eol,start,indent "  줄의 끝, 시작, 들여쓰기에서 백스페이스시 이전줄로
+set history=1000     " vi 편집기록 기억갯수 .viminfo에 기록
+highlight Comment term=bold cterm=bold ctermfg=4 " 코멘트 하이라이트
+set mouse=a          " vim에서 마우스 사용
+set t_Co=256         " 색 조정
+
+" javascript
+let g:jsx_ext_required = 0
+
+" use Ctrl+L to toggle the line number counting method
+function! g:ToggleNuMode()
+	if &nu == 1 && &rnu == 0
+  		set rnu
+	else
+   		set nornu
+endif
+endfunction
+nnoremap <C-L> :call g:ToggleNuMode()<cr>
+
+inoremap <C-[> <esc>
+
+map <C-n> :NERDTreeToggle<CR>
+
+execute pathogen#infect()
+
+
+" Start Syntastic setting
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"autocmd VimEnter * IndentGuidesEnable 
+"let g:indent_guides_start_level = 2
+"let g:indent_guides_guide_size = 1
+
+
+"" or
+autocmd FileType javascript noremap <buffer>  <c-f> :Esformatter<cr>
+" for json
+"autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" " for jsx
+"autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" " for html
+"autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" " for css or scss
+"autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
+autocmd FileType yml noremap <buffer> <c-f> :ft=ansible<cr>
+
+"=================== shotcut ======================
+vnoremap <silent> <leader>y :<CR>:let @a=@" \| execute "normal! vgvy" \| let res=system("pbcopy", @") \| let @"=@a<CR>
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+"let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_mode_map = { "mode": "active" }
+let g:syntastic_javascript_checkers = ['eslint', 'standard']
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
+map <C-l> :SyntasticReset<cr>
+map <leader>l :SyntasticToggleMode<cr>
+
+"=================================================="
+" End Syntastic setting
+
+map <C-m> :w <cr> :!standard --fix %<cr> :SyntasticCheck<cr>
+" autocmd bufwritepost *.js silent !standard --fix %
+set autoread
+
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi statusline guibg=Cyan ctermfg=2 guifg=White ctermbg=15
+  else
+    hi statusline guibg=DarkRed ctermfg=1 guifg=White ctermbg=15
+  endif
+endfunction
+
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+
+
+" will run esformatter after pressing <leader> followed by the 'e' and 's' keys
+nnoremap <silent> <leader>es :Esformatter<CR>
+vnoremap <silent> <leader>es :EsformatterVisual<CR>
+
+if filereadable($HOME . "/.vimrc.html")
+  source ~/.vimrc.html
+endif
